@@ -13,7 +13,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 // });
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:2777" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://mrtech-be.onrender.com" }),
   tagTypes: ["Product", "User"],
   endpoints: (builder) => ({}),
 });
