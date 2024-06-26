@@ -11,41 +11,45 @@ import ramIcon from "../assets/ram.png";
 
 export default function HomeGadgetWidget() {
   return (
-    <div className="h-[200px] bg-slate-50 px-[100px]">
-      <ul className="grid grid-cols-7 my-[100px]">
+    <div className="h-[200px] bg-slate-50 px-[20px] md:px-[100px]">
+      <ul className="grid grid-cols-4 my-[100px] xl:grid-cols-7">
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={monitorIcon} alt="" />
+          <Link to="products/monitor" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={monitorIcon} alt="" />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={headphoneIcon} alt="" />
+          <Link to="products/headphone" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={headphoneIcon} alt="" />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={keyboardIcon} alt="" />
+          <Link to="products/keyboard" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={keyboardIcon} alt="" />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={mouseIcon} alt="" />
+          <Link to="products/mouse" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={mouseIcon} alt="" />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={cpuIcon} alt="" />
+          <Link to="products/cpu" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={cpuIcon} alt="" />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={motherboardIcon} alt="" />
+          <Link to="products/motherboard" className="h-[80px] m-auto">
+            <img
+              className="h-[35px] md:h-[80px]"
+              src={motherboardIcon}
+              alt=""
+            />
           </Link>
         </li>
         <li className="flex">
-          <Link className="h-[80px] m-auto">
-            <img className="h-[80px]" src={ramIcon} alt="" />
+          <Link to="products/ram" className="h-[80px] m-auto">
+            <img className="h-[35px] md:h-[80px]" src={ramIcon} alt="" />
           </Link>
         </li>
       </ul>

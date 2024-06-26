@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Hero from "../components/Hero";
 import HomeMain from "../components/HomeMain";
 import HomeGadgetWidget from "../components/HomeGadgetWidget";
@@ -9,6 +9,10 @@ import HomeCarousel from "../components/HomeCarousel";
 import HomeOffers from "../components/HomeOffers";
 
 export default function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
   return (
     <div className="min-h-screen bg-white">
       <Hero />

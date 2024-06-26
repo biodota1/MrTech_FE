@@ -2,7 +2,7 @@ import React from "react";
 
 export default function HomeCarousel() {
   return (
-    <div className="m-[100px]">
+    <div className="m-5 xl:m-[100px]">
       <div className="carousel w-full">
         <div id="slide1" className="carousel-item relative w-full">
           <img

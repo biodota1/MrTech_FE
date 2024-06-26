@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import registerBg from "../assets/auth_bg.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import { useAddNewUserMutation } from "../features/user/userApiSlice";
+import { useRegisterMutation } from "../features/auth/authApiSlice";
 
 export default function Register() {
   const [createNewUser, { isLoading, isSuccess, isError, error }] =
-    useAddNewUserMutation();
+    useRegisterMutation();
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -26,14 +26,22 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/login");
+    }
+  });
+
   const onSubmit = async (data) => {
+    setEmail(data.email);
+    setUsername(data.username);
+    setPassword(data.password);
     if (isChecked) {
       await createNewUser({
-        username: data.username,
-        password: data.password,
-        email: data.email,
+        username,
+        password,
+        email,
       });
-      navigate("/login");
     }
   };
 

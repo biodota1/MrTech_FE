@@ -1,20 +1,16 @@
 import { useSelector } from "react-redux";
 import React from "react";
 import { jwtDecode } from "jwt-decode";
+import { selectCurrentToken } from "../features/auth/authSlice";
 
 export default function useAuth() {
-  const token = true;
-  const user = {
-    username: "jamesmyer",
-    roles: "admin",
-    id: 1234,
-  };
+  const token = useSelector(selectCurrentToken);
+  if (token) {
+    const decoded = jwtDecode(token);
+    const { roles } = decoded.UserInfo;
 
-  //   if (token) {
-  //     const decode = jwtDecode(token);
-  //     const { username, roles } = decode.UserInfo;
+    return { roles };
+  }
 
-  //     return { username, roles };
-  //   }
-  return { username, roles, id };
+  return { roles: "" };
 }

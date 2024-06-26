@@ -13,24 +13,41 @@ import PrivateRoutes from "./private/PrivateRoutes";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import Product from "./pages/Product";
+import Unauthorized from "./pages/Unauthorized";
+import Prefetch from "./extra/Prefetch";
+import UserList from "./features/user/UserList";
+import Dashboard from "./components/Dashboard";
+import ProductList from "./features/product/ProductList";
+import Category from "./pages/Category";
+import Products from "./pages/Products";
 
 const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <Home /> },
+      { element: <Prefetch />, children: [{ path: "/", element: <Home /> }] },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "/unauthorized", element: <Unauthorized /> },
       {
         path: "admin",
-        element: <PrivateRoutes element={<Admin />} />,
+        element: <PrivateRoutes roles={["Admin"]} element={<Admin />} />,
+        children: [
+          { index: true, element: <Dashboard /> },
+          { path: "users", element: <UserList /> },
+          { path: "products", element: <ProductList /> },
+        ],
       },
       {
-        path: "member",
-        element: <PrivateRoutes element={<Member />} />,
+        path: "profile",
+        element: (
+          <PrivateRoutes roles={["Admin", "Member"]} element={<Member />} />
+        ),
       },
       { path: "product", element: <Product /> },
+      { path: "products", element: <Products /> },
+      { path: "products/:category", element: <Category /> },
     ],
   },
 ]);

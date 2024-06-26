@@ -1,16 +1,42 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import registerBg from "../assets/auth_bg.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../features/auth/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
+  const [login, { isLoading }] = useLoginMutation();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const { accessToken } = await login({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      const decodedToken = jwtDecode(accessToken);
+      const userRole = decodedToken.UserInfo.roles;
+      const username = decodedToken.UserInfo.username;
+      dispatch(
+        setCredentials({ accessToken, role: userRole, username: username })
+      );
+      navigate(userRole === "Admin" ? "/admin" : "/profile");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -35,7 +61,7 @@ export default function Login() {
           </label>
           <input
             className={`input text-black bg-white border-1 border-black rounded-none ${
-              errors.username ? "border-red-500" : ""
+              errors.email ? "border-red-500" : ""
             }`}
             id="email"
             type="email"
@@ -54,7 +80,7 @@ export default function Login() {
           </label>
           <input
             className={`input text-black bg-white border-1 border-black rounded-none ${
-              errors.username ? "border-red-500" : ""
+              errors.password ? "border-red-500" : ""
             }`}
             id="email"
             type="password"
@@ -89,6 +115,11 @@ export default function Login() {
             </Link>
           </span>
         </p>
+        {isLoading && (
+          <div className="flex justify-center align-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        )}
       </form>
     </div>
   );

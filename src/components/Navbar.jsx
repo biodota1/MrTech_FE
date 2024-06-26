@@ -1,7 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
+  const { isAuthenticated, username, userRole } = useSelector(
+    (state) => state.auth
+  );
   return (
     <div className="relative z-50 navbar bg-slate-900 text-primary">
       <div className="navbar-start">
@@ -24,49 +28,74 @@ export default function Navbar() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 rounded-none w-52"
           >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+            <Link to="/">Home</Link>
+            <Link to="/products">All Products</Link>
+            <Link to="/category">Category</Link>
+            {!isAuthenticated ? (
+              <div className="flex flex-col">
+                <Link to="/login">Sign in</Link>
+                <Link to="/register">Sign up</Link>
+              </div>
+            ) : (
+              <Link to={userRole === "Admin" ? "/admin" : "/profile"}>
+                Dashboard
+              </Link>
+            )}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link
+          to="/"
+          className="btn btn-ghost text-md lg:text-xl font-bold ml-10"
+        >
           MrTech
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a>Product</a>
+            <Link to="/products">Products</Link>
           </li>
         </ul>
       </div>
-      <div className="navbar-end">
-        <Link to="/login" className="mx-5">
+      {!isAuthenticated ? (
+        <Link to="/login" className="navbar-end text-sm px-4 sm:hidden">
           Sign in
         </Link>
-        <Link to="/register" className="btn bg-btn-primary text-black">
-          Sign up
-        </Link>
-      </div>
+      ) : (
+        <div></div>
+      )}
+      {!isAuthenticated ? (
+        <div className="navbar-end hidden sm:flex">
+          <Link to="/login" className="mx-5">
+            Sign in
+          </Link>
+          <Link to="/register" className="btn bg-btn-primary text-black">
+            Sign up
+          </Link>
+        </div>
+      ) : (
+        <div className="navbar-end flex gap-5 px-5">
+          <Link
+            className="hidden xl:flex"
+            to={userRole === "Admin" ? "/admin" : "/profile"}
+          >
+            {username}
+          </Link>
+          <Link
+            to={userRole === "Admin" ? "/admin" : "/profile"}
+            className="avatar online h-[30px] w-[30px]"
+          >
+            <div className="w-24 rounded-full">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
